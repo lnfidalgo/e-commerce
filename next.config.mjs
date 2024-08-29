@@ -2,7 +2,7 @@
 const nextConfig = {
   env: {
     API_TOKEN: process.env.API_TOKEN,
-    BASEROW_API_URL_GET: process.env.BASEROW_API_URL_GET,
+    BASEROW_API_URL: process.env.BASEROW_API_URL,
   },
   images: {
     remotePatterns: [

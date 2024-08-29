@@ -1,7 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-html, body, :root { height: 100%;}
+html, body, :root { height: 100%; background-color: #0ea5e9}
+ul, li {
+  list-style-type: none;
+}
 
 @layer base {
   :root {
