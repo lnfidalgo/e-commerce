@@ -18,7 +18,7 @@ export default function MainContent() {
     <div className="max-w-[1600px] h-full mx-auto bg-white">
       <div className="flex gap-5 overflow-x-hidden px-10 pt-8">
         {produto.produtos.map((item, index) => {
-          const image = images.find((img: any) => img.id === item.imageID);
+          const image: any = images.find((img: any) => img.id === item.imageID);
           return (
             <div key={index}>
               <div className="flex gap-5 items-center flex-col w-60 justify-center">
@@ -56,4 +56,3 @@ export default function MainContent() {
     </div>
   );
 }
-
