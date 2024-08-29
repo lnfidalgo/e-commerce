@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { produto } from "./componentObjects";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function MainContent() {
-  const [images, setImages] = useState([]);
+  const [images, setImages]=useState([]);
+  const router = useRouter()
 
   useEffect(() => {
     getImages().then((response: any) => {
@@ -47,7 +49,7 @@ export default function MainContent() {
                     </p>
                   </div>
                 </div>
-                <Button className="w-full">{item.buttonText}</Button>
+                <Button onClick={() => router.push(`/produto/${item.id}/${item.description}`)} className="w-full">{item.buttonText}</Button>
               </div>
             </div>
           );

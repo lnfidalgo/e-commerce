@@ -8,15 +8,15 @@ import { ListItem } from "./ListItem";
 
 const components: { title: string; href: string }[] = [
   {
-    title: "Alert Dialog",
+    title: "Processador",
     href: "/docs/primitives/alert-dialog",
   },
   {
-    title: "Hover Card",
+    title: "Placa de vídeo",
     href: "/docs/primitives/hover-card",
   },
   {
-    title: "Progress",
+    title: "Notebook",
     href: "/docs/primitives/progress",
   },
 ];
@@ -28,7 +28,7 @@ export default function DepartmentBar() {
         <NavigationMenuItem>
           <NavigationMenuTrigger className="bg-orange-500 hover:bg-orange-600 focus:bg-orange-700 text-white font-bold hover:text-white">Departamentos</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="flex flex-col w-[400px] gap-3 p-4 md:w-[500px] lg:w-[600px] ">
+            <ul className="flex flex-col w-[400px] gap-3 p-4 md:w-[500px] lg:w-[600px] bg-slate-200 ">
               {components.map((component) => (
                 <ListItem
                   key={component.title}

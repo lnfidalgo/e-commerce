@@ -27,16 +27,7 @@ export default function SignInCard() {
       <CardDescription>Use seu email ou outro serviço</CardDescription>
       <CardContent className="space-y-5 px-0 pb-0">
         <form className="space-y-2.5">
-          {images.map((url: any, index: number) => (
-            <Image
-              src={url.Logo[0].url}
-              key={index}
-              alt="teste"
-              width={200}
-              height={200}
-              priority
-            />
-          ))}
+          
         </form>
       </CardContent>
       <Button>Clica</Button>
