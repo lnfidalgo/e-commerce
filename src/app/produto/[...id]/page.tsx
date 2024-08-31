@@ -2,19 +2,21 @@
 
 import { Button } from "@/components/ui/button";
 import { produto } from "@/src/components/layouts/content/componentObjects";
-import { getImages } from "@/src/services/baserow.service";
+import { getImages, verifyLogin } from "@/src/services/baserow.service";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
 
 export default function Produto({
   params,
 }: {
   params: { slug: string[]; id: string };
-}) {
+  }) {
   const [images, setImages] = useState([]);
   const router = useRouter();
-  const { id } = useParams();
+  const { id }= useParams();
+  
   useEffect(() => {
     getImages().then((response: any) => {
       setImages(response.data);
