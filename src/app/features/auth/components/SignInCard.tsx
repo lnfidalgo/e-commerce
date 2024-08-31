@@ -18,11 +18,12 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { postDataToDB, verifyLogin } from "@/src/services/baserow.service";
+
 import { FaCheck } from "react-icons/fa";
 import { toast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { SignInFlow } from "../types";
+import { verifyLogin } from "@/src/services/baserow.service";
 
 interface SignInCardProps {
   setState: (state: SignInFlow) => void;
@@ -52,20 +53,20 @@ export default function SignInCard({ setState }: SignInCardProps) {
       verifyLogin(payload)
         .then((result) => {
           if (result.status) {
-            console.log(result.message)
+            toast({
+              title: "Login realizado!",
+              description: "Bem vindo!",
+              style: { backgroundColor: "#99E2CD" },
+              action: (
+                <div className="text-4xl text-blue-500">
+                  <FaCheck />
+                </div>
+              ),
+            });
           } else {
-            console.log(result.message)
+            console.log(result.message);
+            return;
           }
-          toast({
-            title: "Login realizado!",
-            description: "Bem vindo!",
-            style: { backgroundColor: "#99E2CD" },
-            action: (
-              <div className="text-4xl text-blue-500">
-                <FaCheck />
-              </div>
-            ),
-          });
         })
         .catch((error) => {
           toast({

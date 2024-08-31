@@ -1,5 +1,6 @@
 import axios from "axios";
 import api from "./baserowAPI.service";
+import bcrypt from "bcryptjs";
 
 interface formData {
   Email: string;
@@ -28,22 +29,27 @@ export const getImages = async () => {
 
 export const verifyLogin = async (_data: any) => {
   try {
+
     const response = await api.get(
       `https://api.baserow.io/api/database/rows/table/${tableID}/?user_field_names=true`
     );
+    console.log("Strripe:", process.env.STRIPE_SECRET_KEY);
     const data=response.data.results;
-    console.log(data)
-    const passwordExists = data.some(
-      (item: any) => item.Password === _data.password
+
+    const passwordExists=await data.some((item: any) =>
+      console.log(item.Password, "data:", _data.password )
+     // bcrypt.compare(item.Password, _data.password)
     );
-    const emailExists = data.some((item: any) => item.Email === _data.email);
-    console.log(passwordExists);
-    console.log(emailExists);
+    
+    console.log(data)
+    const emailExists= data.some((item: any) => item.Email);
+    
+    console.log('aqui:', emailExists)
 
     if (emailExists && passwordExists) {
-      return { status: true, message: "Login certo!" };
+      return { status: 200, message: "Login certo!" };
     } else {
-      return { status: false, message: "Email ou senha incorretos." };
+      return { status: 403, message: "Email ou senha incorretos." };
     }
   } catch (e) {
     console.error("Erro ao buscar dados:", e);
@@ -51,14 +57,19 @@ export const verifyLogin = async (_data: any) => {
   }
 };
 
-export const postDataToDB = async (data: formData) => {
+export const postDataToDB = async (_data: formData) => {
   try {
-    const response = await axios.post(BASEROW_API_URL_POST!, data, {
-      headers: {
-        Authorization: `Token ${API_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const hashedPassword = await bcrypt.hash(_data.Password, 10);
+    const response = await api.post(
+      BASEROW_API_URL_POST!,
+      { Email: _data.Email, Password: hashedPassword },
+      {
+        headers: {
+          Authorization: `Token ${API_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("erro ao enviar para o baserow:", error);

@@ -2,21 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import { produto } from "@/src/components/layouts/content/componentObjects";
-import { getImages, verifyLogin } from "@/src/services/baserow.service";
+import { getImages } from "@/src/services/baserow.service";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-
-export default function Produto({
-  params,
-}: {
-  params: { slug: string[]; id: string };
-  }) {
+export default function Produto({ params }: { params: { id: string } }) {
   const [images, setImages] = useState([]);
-  const router = useRouter();
-  const { id }= useParams();
-  
+  const { id } = useParams() ?? { id: "" };
+
   useEffect(() => {
     getImages().then((response: any) => {
       setImages(response.data);
@@ -54,8 +48,10 @@ export default function Produto({
                   Alguma promoção
                 </p>
               </div>
-              <div className="text-xl sm:text-2xl font-bold flex text-center
-              justify-between sm:justify-around">
+              <div
+                className="text-xl sm:text-2xl font-bold flex text-center
+              justify-between sm:justify-around"
+              >
                 <div>
                   <p>Desconto:</p>
                   <p>{produtoEspecifico?.desconto}</p>
