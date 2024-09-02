@@ -6,15 +6,15 @@ const nextConfig = {
     BASEROW_API_URL_POST: process.env.BASEROW_API_URL_POST,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     NEXT_PUBLIC_STRIPE_PUBLIC_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
+    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
   },
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname:
-          "baserow-backend-production20240528124524339000000001.s3.amazonaws.com",
+        hostname: "files.stripe.com",
         port: "",
-        pathname: "/user_files/*",
+        pathname: "/links/*",
       },
     ],
   },

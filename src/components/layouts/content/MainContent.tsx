@@ -1,55 +1,57 @@
 "use client";
 
-import { getImages } from "@/src/services/baserow.service";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { produto } from "./componentObjects";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 export default function MainContent() {
-  const [images, setImages]=useState([]);
-  const router = useRouter()
+  const [products, setProducts] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
-    getImages().then((response: any) => {
-      setImages(response.data);
-    });
+    const fetchProducts = async () => {
+      const response = await fetch("/api/products");
+
+      const data=await response.json();
+      setProducts(data.products);
+    };
+
+    fetchProducts();
   }, []);
   return (
     <div className="max-w-[1600px] h-full mx-auto bg-white">
       <div className="flex gap-5 overflow-x-hidden px-10 pt-8">
-        {produto.produtos.map((item, index) => {
-          const image: any = images.find((img: any) => img.id === item.imageID);
+        {products.map((product: any) => {
           return (
-            <div key={index}>
+            <div key={product.id}>
               <div className="flex gap-5 items-center flex-col w-60 justify-center">
                 <div>
-                  {image && (
-                    <Image
-                      src={image.ImgCards[0].url}
-                      key={index}
-                      alt="teste"
-                      width={150}
-                      height={150}
-                      priority
-                    />
-                  )}
+                  <Image
+                    src={product.images[0]}
+                    alt={product.name}
+                    width={150}
+                    height={150}
+                    priority
+                  />
                 </div>
                 <div className="flex flex-col gap-3">
                   <h2 className="h-20 overflow-y-hidden text-left font-semibold">
-                    {item.description}
+                    {product.description}
                   </h2>
                   <div>
                     <p className="text-2xl font-bold text-orange-500">
-                      {item.price}
+                      R${product.price}
                     </p>
-                    <p className="text-slate-500 text-sm">
-                      {item.priceDescription}
-                    </p>
+                    <p className="text-slate-500 text-sm">À vista no PIX</p>
                   </div>
                 </div>
-                <Button onClick={() => router.push(`/produto/${item.id}/${item.description}`)} className="w-full">{item.buttonText}</Button>
+                <Button
+                  onClick={() => router.push(`/produto/${product.description}`)}
+                  className="w-full"
+                >
+                  Comprar
+                </Button>
               </div>
             </div>
           );
