@@ -48,7 +48,7 @@ export default function MainContent() {
                 </div>
                 <Button
                   onClick={() =>
-                    router.push(`/produto/${product.description}`)
+                    router.push(`/produto/${product.id}`)
                   }
                   className="w-full"
                 >
