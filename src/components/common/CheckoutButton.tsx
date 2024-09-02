@@ -6,7 +6,7 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
 );
 
-export default function CheckoutButton({product}: any) {
+export default function CheckoutButton({ product }: any) {
   const [loading, setLoading] = useState(false);
 
   const handleCheckout = async () => {
@@ -30,10 +30,10 @@ export default function CheckoutButton({product}: any) {
     });
 
     const session = await response.json();
-    
+
     if (stripe) {
       const { error } = await stripe.redirectToCheckout({
-        sessionId: session.id
+        sessionId: session.id,
       });
       if (error) {
         console.error("Erro no checkout", error);

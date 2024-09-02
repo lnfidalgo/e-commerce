@@ -14,7 +14,7 @@ export default function Produto({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch("/api/products");
+      const response = await fetch("/api/products", {cache: 'no-store'});
       const data = await response.json();
       setProducts(data.products);
     };

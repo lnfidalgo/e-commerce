@@ -20,7 +20,6 @@ export default async function handler(
       currency: (product.default_price as Stripe.Price).currency,
       images: product.images,
     }));
-
     res.status(200).json({ products: formattedProducts });
   } catch (error) {
     res.status(500).json({ error: "Não foi possível receber produtos." });

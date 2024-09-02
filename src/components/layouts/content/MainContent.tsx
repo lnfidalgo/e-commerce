@@ -11,7 +11,7 @@ export default function MainContent() {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch("/api/products");
+      const response = await fetch("/api/products", { cache: "no-store" });
 
       const data=await response.json();
       setProducts(data.products);
@@ -47,7 +47,9 @@ export default function MainContent() {
                   </div>
                 </div>
                 <Button
-                  onClick={() => router.push(`/produto/${product.description}`)}
+                  onClick={() =>
+                    router.push(`/produto/${product.description}`)
+                  }
                   className="w-full"
                 >
                   Comprar
