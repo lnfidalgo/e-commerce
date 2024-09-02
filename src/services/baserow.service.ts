@@ -11,21 +11,6 @@ const BASEROW_API_URL_POST = process.env.BASEROW_API_URL_POST;
 const API_TOKEN = process.env.API_TOKEN;
 const tableID = 346128;
 
-export const getImages = async () => {
-  return await api
-    .get(
-      `https://api.baserow.io/api/database/rows/table/${tableID}/?user_field_names=true`
-    )
-    .then((response) => {
-      return {
-        data: response.data.results,
-        status: response.status,
-      };
-    })
-    .catch((e) => {
-      console.error("Deu erro no get: ", e);
-    });
-};
 
 export const verifyLogin = async (_data: any) => {
   try {

@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { signIn, signOut, useSession } from "next-auth/react";
+
 import {
   Card,
   CardContent,
@@ -44,44 +46,16 @@ export default function SignInCard({ setState }: SignInCardProps) {
   });
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    const payload = {
+    const result = await signIn("credentials", {
+      redirect: false,
       email: data.email,
       password: data.password,
-    };
+    });
 
-    try {
-      verifyLogin(payload)
-        .then((result) => {
-          if (result.status) {
-            toast({
-              title: "Login realizado!",
-              description: "Bem vindo!",
-              style: { backgroundColor: "#99E2CD" },
-              action: (
-                <div className="text-4xl text-blue-500">
-                  <FaCheck />
-                </div>
-              ),
-            });
-          } else {
-            console.log(result.message);
-            return;
-          }
-        })
-        .catch((error) => {
-          toast({
-            title: "Erro ao fazer login!",
-            description: "Tente novamente mais tarde",
-            variant: "destructive",
-            action: (
-              <div className="text-4xl text-white">
-                <FaCheck />
-              </div>
-            ),
-          });
-        });
-    } catch (e) {
-      console.error("Erro na verificação de login:", e);
+    if (result?.error) {
+      console.error("Erro na autenticação:", result.error);
+    } else {
+      console.log("Autenticação bem-sucedida!", result);
     }
   }
 
