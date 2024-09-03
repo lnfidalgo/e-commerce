@@ -1,13 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { signIn, signOut, useSession } from "next-auth/react";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -17,21 +9,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-
-import { FaCheck } from "react-icons/fa";
-import { toast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
+import { useAuthActions } from "@convex-dev/auth/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 import { SignInFlow } from "../types";
-import { verifyLogin } from "@/src/services/baserow.service";
 
 interface SignInCardProps {
   setState: (state: SignInFlow) => void;
 }
 
 export default function SignInCard({ setState }: SignInCardProps) {
+  const { signIn } = useAuthActions();
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
   const formSchema = z.object({
     email: z.string().email({ message: "Email inválido." }),
     password: z.string().min(6, { message: "Senha inválida." }),
@@ -44,29 +37,41 @@ export default function SignInCard({ setState }: SignInCardProps) {
       password: "",
     },
   });
-
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    const result = await signIn("credentials", {
-      redirect: false,
+  const onPasswordSignin = (data: z.infer<typeof formSchema>) => {
+    console.log(data.password);
+    setPending(true);
+    signIn("password", {
       email: data.email,
       password: data.password,
-    });
+      flow: "signIn",
+    })
+      .catch((e) => {
+        console.log("ERRO AQUI:", e);
+        setError("Email ou senha inválidos!");
+      })
+      .finally(() => {
+        setPending(false);
+      });
+  };
 
-    if (result?.error) {
-      console.error("Erro na autenticação:", result.error);
-    } else {
-      console.log("Autenticação bem-sucedida!", result);
-    }
-  }
+  async function onSubmit(data: z.infer<typeof formSchema>) {}
 
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="px-0 pt-0 pb-5">
         <CardTitle>Faça login para continuar</CardTitle>
       </CardHeader>
+      {!!error && (
+        <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm">
+          <p>{error}</p>
+        </div>
+      )}
       <CardContent className="space-y-5 px-0 pb-0">
         <Form {...form}>
-          <form className="space-y-2.5" onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            className="space-y-2.5"
+            onSubmit={form.handleSubmit(onPasswordSignin)}
+          >
             <FormField
               control={form.control}
               name="email"
@@ -74,7 +79,11 @@ export default function SignInCard({ setState }: SignInCardProps) {
                 <FormItem className="w-full">
                   <FormLabel>{"Email"}</FormLabel>
                   <FormControl>
-                    <Input placeholder={"Digite o seu email"} {...field} />
+                    <Input
+                      placeholder={"Digite o seu email"}
+                      {...field}
+                      disabled={pending}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -87,13 +96,17 @@ export default function SignInCard({ setState }: SignInCardProps) {
                 <FormItem className="w-full">
                   <FormLabel>{"Senha"}</FormLabel>
                   <FormControl>
-                    <Input placeholder={"Digite a sua senha"} {...field} />
+                    <Input
+                      placeholder={"Digite a sua senha"}
+                      {...field}
+                      disabled={pending}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={false}>
+            <Button type="submit" className="w-full" disabled={pending}>
               Entrar
             </Button>
             <Toaster />

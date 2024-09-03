@@ -24,4 +24,3 @@ export default function CancelPage() {
     </Card>
   );
 }
-//<button onClick={() => (window.location.href = "/")}>

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function MainContent() {
   const [products, setProducts] = useState([]);
@@ -13,7 +13,7 @@ export default function MainContent() {
     const fetchProducts = async () => {
       const response = await fetch("/api/products", { cache: "no-store" });
 
-      const data=await response.json();
+      const data = await response.json();
       setProducts(data.products);
     };
 
@@ -47,9 +47,7 @@ export default function MainContent() {
                   </div>
                 </div>
                 <Button
-                  onClick={() =>
-                    router.push(`/produto/${product.id}`)
-                  }
+                  onClick={() => router.push(`/produto/${product.id}`)}
                   className="w-full"
                 >
                   Comprar
