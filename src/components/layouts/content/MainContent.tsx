@@ -1,9 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import AddToFavoritesButton from "../../common/AddFavoriteButton";
+import { api } from "@/convex/_generated/api";
+import { getFavorites } from "@/convex/mutations/favorites";
+import { useQuery } from "convex/react";
+import { FavoritesPage } from "../../common/FavoritesPage";
 
 export default function MainContent() {
   const [products, setProducts] = useState([]);
@@ -41,22 +45,18 @@ export default function MainContent() {
                   </h2>
                   <div>
                     <p className="text-2xl font-bold text-orange-500">
-                      R${product.price}
+                      {product.price}
                     </p>
                     <p className="text-slate-500 text-sm">À vista no PIX</p>
                   </div>
                 </div>
-                <Button
-                  onClick={() => router.push(`/produto/${product.id}`)}
-                  className="w-full"
-                >
-                  Comprar
-                </Button>
+                <AddToFavoritesButton productId={product.images[0]} />
               </div>
             </div>
           );
         })}
       </div>
+      <FavoritesPage />
     </div>
   );
 }

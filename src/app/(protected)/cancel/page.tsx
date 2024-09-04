@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,7 +11,9 @@ import {
 
 export default function CancelPage() {
   return (
-    <Card className="max-w-[600px] mx-auto">
+    <div className="h-screen w-screen flex items-center justify-center">
+
+    <Card className="max-w-[600px]">
       <CardHeader>
         <CardTitle className="text-red-400">Pagamento Cancelado!</CardTitle>
         <CardDescription>
@@ -22,5 +26,6 @@ export default function CancelPage() {
         </Button>
       </CardContent>
     </Card>
+    </div>
   );
 }

@@ -15,13 +15,12 @@ export default function Produto({ params }: { params: { id: string } }) {
       const response = await fetch("/api/products", { cache: "no-store" });
       const data = await response.json();
       const filterData = data.products.filter((item: any) => item.id === id[0]);
-      console.log("dentro do effect:  ", filterData);
       setProducts(filterData);
     };
 
     fetchProducts();
   }, []);
-  console.log("produtos:  ", products);
+
   return (
     <div className="max-w-[1600px] h-full mx-auto bg-white">
       {products.map((product: any) => {
