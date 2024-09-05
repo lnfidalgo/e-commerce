@@ -2,13 +2,15 @@
 
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { Button } from "@/components/ui/button";
+import { FaRegHeart } from "react-icons/fa";
 
 const AddToFavoritesButton = ({ productId }: any) => {
   const addToFavorites = useMutation(api.mutations.favorites.addFavorite);
 
   const handleAddToFavorites = async () => {
     try {
-      console.log("ADD FAVORITE:", productId)
+      console.log("ADD FAVORITE:", productId);
       await addToFavorites({ productId });
       alert("Produto adicionado aos favoritos!");
     } catch (error) {
@@ -18,7 +20,9 @@ const AddToFavoritesButton = ({ productId }: any) => {
   };
 
   return (
-    <button onClick={handleAddToFavorites}>Adicionar aos Favoritos</button>
+    <Button onClick={handleAddToFavorites} className="bg-orange-500 hover:bg-orange-500/90">
+      <FaRegHeart />
+    </Button>
   );
 };
 

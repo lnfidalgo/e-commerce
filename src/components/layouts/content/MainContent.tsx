@@ -1,13 +1,10 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AddToFavoritesButton from "../../common/AddFavoriteButton";
-import { api } from "@/convex/_generated/api";
-import { getFavorites } from "@/convex/mutations/favorites";
-import { useQuery } from "convex/react";
-import { FavoritesPage } from "../../common/FavoritesPage";
 
 export default function MainContent() {
   const [products, setProducts] = useState([]);
@@ -24,13 +21,13 @@ export default function MainContent() {
     fetchProducts();
   }, []);
   return (
-    <div className="max-w-[1600px] h-full mx-auto bg-white">
-      <div className="flex gap-5 overflow-x-hidden px-10 pt-8">
+    <div className="max-w-[1600px] mx-auto bg-white">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 p-10 pt-8 h-full justify-items-center">
         {products.map((product: any) => {
           return (
-            <div key={product.id}>
+            <div key={product.id} className="pt-7">
               <div className="flex gap-5 items-center flex-col w-60 justify-center">
-                <div>
+                <div className="flex">
                   <Image
                     src={product.images[0]}
                     alt={product.name}
@@ -38,6 +35,7 @@ export default function MainContent() {
                     height={150}
                     priority
                   />
+                  <AddToFavoritesButton productId={product.images[0]} />
                 </div>
                 <div className="flex flex-col gap-3">
                   <h2 className="h-20 overflow-y-hidden text-left font-semibold">
@@ -45,18 +43,24 @@ export default function MainContent() {
                   </h2>
                   <div>
                     <p className="text-2xl font-bold text-orange-500">
-                      {product.price}
+                      {product.rawPrice}
                     </p>
                     <p className="text-slate-500 text-sm">À vista no PIX</p>
                   </div>
                 </div>
-                <AddToFavoritesButton productId={product.images[0]} />
+                <Button
+                  onClick={() =>
+                    router.push(`/produto/${product.id}/${product.description}`)
+                  }
+                  className="w-full bg-orange-500 hover:bg-orange-500/90"
+                >
+                  Comprar
+                </Button>
               </div>
             </div>
           );
         })}
       </div>
-      <FavoritesPage />
     </div>
   );
 }
