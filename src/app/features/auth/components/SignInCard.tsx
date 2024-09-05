@@ -38,7 +38,6 @@ export default function SignInCard({ setState }: SignInCardProps) {
     },
   });
   const onPasswordSignin = (data: z.infer<typeof formSchema>) => {
-    console.log(data.password);
     setPending(true);
     signIn("password", {
       email: data.email,
@@ -46,7 +45,6 @@ export default function SignInCard({ setState }: SignInCardProps) {
       flow: "signIn",
     })
       .catch((e) => {
-        console.log("ERRO AQUI:", e);
         setError("Email ou senha inválidos!");
       })
       .finally(() => {

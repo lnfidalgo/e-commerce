@@ -46,7 +46,7 @@ export default function CheckoutButton({ product }: any) {
     <Button
       onClick={handleCheckout}
       disabled={loading}
-      className="hidden lg:flex max-w-[560px] p-6 text-xl uppercase bg-orange-500 hover:bg-orange-500/90"
+      className="lg:flex max-w-[560px] p-6 text-base w-full uppercase bg-orange-500 hover:bg-orange-500/90"
     >
       {loading ? "Carregando..." : "Pagar com Stripe"}
     </Button>

@@ -14,6 +14,7 @@ export default async function handler(
     const formattedProducts = products.data.map((product) => {
       const price = product.default_price as Stripe.Price;
 
+      // Formatar o preço
       const formattedPrice = price.unit_amount
         ? new Intl.NumberFormat("pt-BR", {
             style: "currency",
@@ -25,7 +26,8 @@ export default async function handler(
         id: product.id,
         name: product.name,
         description: product.description,
-        price: formattedPrice,
+        price: price.unit_amount,
+        rawPrice: formattedPrice,
         currency: price.currency.toUpperCase(),
         images: product.images,
       };
