@@ -7,6 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Toaster } from "@/components/ui/toaster";
+import { toast } from "@/components/ui/use-toast";
 import { api } from "@/convex/_generated/api";
 import CheckoutButton from "@/src/components/common/CheckoutButton";
 import DepartmentBar from "@/src/components/layouts/header/departmentBar/DepartmentBar";
@@ -15,6 +17,18 @@ import { useMutation, useQuery } from "convex/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
+
+interface favoritesConvexProps {
+  productId: string;
+  _id: string;
+}
+
+interface productsStripePros {
+  name: string;
+  price: string;
+  description: string;
+  rawPrice: string;
+}
 
 const FavoritesPage = () => {
   const [products, setProducts] = useState([]);
@@ -30,7 +44,7 @@ const FavoritesPage = () => {
     fetchProducts();
   }, []);
   const favorites = useQuery(api.mutations.favorites.getFavorites);
-  console.log(favorites);
+
   const removeFromFavorites = useMutation(
     api.mutations.favorites.removeFavorite
   );
@@ -41,6 +55,7 @@ const FavoritesPage = () => {
       console.log("Produto removido dos favoritos com sucesso!");
     } catch (error) {
       console.error("Erro ao remover o produto dos favoritos:", error);
+      toast({})
     }
   };
 
@@ -77,12 +92,12 @@ const FavoritesPage = () => {
             <p className="text-muted-foreground">Sem favoritos no momento</p>
           ) : (
             <ul>
-              {favorites.map((favorite: any) => {
+              {favorites.map((favorite: favoritesConvexProps) => {
                 const teste = products.filter(
                   (item: any) => item.images[0] === favorite.productId
                 );
-                console.log("Sou o filter", teste);
-                const itemsMap = teste.map((product: any) => {
+
+                const itemsMap = teste.map((product: productsStripePros) => {
                   return {
                     nome: product.name,
                     price: product.price,
@@ -94,7 +109,7 @@ const FavoritesPage = () => {
                 if (itemsMap.length === 0) {
                   return;
                 }
-                console.log("Sou o MAP", itemsMap[0]);
+
                 return (
                   <div
                     key={favorite._id}
@@ -143,6 +158,7 @@ const FavoritesPage = () => {
               })}
             </ul>
           )}
+          <Toaster />
         </div>
       </div>
     </>

@@ -8,7 +8,6 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       const { products } = req.body;
-      console.log("produto:", products);
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items: products.map((product: any) => ({

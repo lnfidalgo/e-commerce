@@ -20,7 +20,7 @@ export const getFavorites = query(async (ctx) => {
   if (!userIdentity) throw new Error("Usuário não autenticado");
 
   const userId = userIdentity.tokenIdentifier;
-  console.log("USERID", userId);
+
   return await ctx.db
     .query("favorites")
     .filter((q) => q.and(q.eq(q.field("userId"), userId)))

@@ -10,7 +10,6 @@ const AddToFavoritesButton = ({ productId }: any) => {
 
   const handleAddToFavorites = async () => {
     try {
-      console.log("ADD FAVORITE:", productId);
       await addToFavorites({ productId });
       alert("Produto adicionado aos favoritos!");
     } catch (error) {
