@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 import AddToFavoritesButton from "../../common/AddFavoriteButton";
 
 export default function MainContent() {
-  const [products, setProducts] = useState([]);
   const router = useRouter();
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {

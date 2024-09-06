@@ -16,7 +16,7 @@ import Navbar from "@/src/components/layouts/header/navbar/Navbar";
 import { useMutation, useQuery } from "convex/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { FaRegHeart } from "react-icons/fa";
+import { FaCheck, FaExclamationTriangle, FaRegHeart } from "react-icons/fa";
 
 interface favoritesConvexProps {
   productId: string;
@@ -52,10 +52,28 @@ const FavoritesPage = () => {
   const handleRemove = async (productId: any) => {
     try {
       await removeFromFavorites({ productId });
-      console.log("Produto removido dos favoritos com sucesso!");
+      toast({
+        title: "Produto removido com sucesso!",
+        description: "Agradecemos.",
+        style: { backgroundColor: "#99E2CD" },
+        action: (
+          <div className="text-4xl text-white">
+            <FaCheck />
+          </div>
+        ),
+      });
     } catch (error) {
       console.error("Erro ao remover o produto dos favoritos:", error);
-      toast({})
+      toast({
+        title: "Erro ao remover dos favoritos!",
+        description: "Tente novamente mais tarde",
+        variant: "destructive",
+        action: (
+          <div className="text-4xl text-white">
+            <FaExclamationTriangle />
+          </div>
+        ),
+      });
     }
   };
 
